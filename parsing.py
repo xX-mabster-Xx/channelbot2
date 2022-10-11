@@ -43,16 +43,17 @@ def parseMatan():
     return names
 
 def parseGeom():
-    url = "https://math.hse.ru/"
-    r = requests.get('https://math.hse.ru/mathan1_medved_fall22')
+    # url = "https://math.hse.ru/"
+    r = requests.get('http://me.hse.ru/avilov/материалы-курса-геометрия/')
     soup = bs(r.content, "html.parser")
-    htmlfiles = soup.find_all('a', class_='link mceDataFile', href=True)
+    htmlfiles = soup.find_all('div', class_='wp-block-file')
     names = dict()
-    for x in htmlfiles:
-        names['Geom\\' + x.text + '.pdf'] = update_file('Geom\\' + x.text + ".pdf", requests.get(url + x['href']).content)
+    for file in htmlfiles:
+        link = file.find('a', href = True)
+        names[link.text + '.pdf'] = update_file('Geom\\' + link.text + '.pdf', requests.get(link['href']).content)
 
     return names
 
 
 if __name__ == '__main__':
-    pass
+    parseGeom()
