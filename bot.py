@@ -32,7 +32,12 @@ def spisok(names):
         i = 0
         while i < len(x) and x[i].isalpha():
             i += 1
-        if folders.get(x[:i]):
+        if x[:i] == "Семинар":
+            if folders.get("Семинары"):
+                folders["Семинары"] += [x]
+            else:
+                folders["Семинары"] = [x]
+        elif folders.get(x[:i]):
             folders[x[:i]] += [x]
         else:
             folders[x[:i]] = [x]
