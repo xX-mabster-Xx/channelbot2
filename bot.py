@@ -6,15 +6,6 @@ import datetime
 
 import asyncio
 import logging
-logging.basicConfig(level=logging.INFO)
-
-TOKEN = '5699670562:AAEycECb_3mpO39QiC_QJ06EqvBKf6bDtM8'
-channel_id = -1001655261828
-
-
-bot = Bot(TOKEN)
-dp = Dispatcher(bot)
-
 import parsing
 import databaseMatan
 import databaseGeom
@@ -22,10 +13,20 @@ import databaseGeom
 
 lastupd = datetime.datetime(2000, 7, 10, 3, 3, 3)
 
+
+TOKEN = '5699670562:AAEycECb_3mpO39QiC_QJ06EqvBKf6bDtM8'
+channel_id = -1001655261828
 matan_msg_id = 298
 geom_msg_id = 527
-
 errorlog = ''
+
+
+logging.basicConfig(level=logging.INFO)
+
+
+bot = Bot(TOKEN)
+dp = Dispatcher(bot)
+
 def spisok(names):
     folders = dict()
     for x in names:
@@ -70,7 +71,13 @@ async def makeGeom():
     for x in fldrs:
         # print(fldrs)
         if databaseGeom.is_exists(x):
-            pass
+            text = f'<b>{x}</b>'
+            for file in fldrs[x]:
+                text += f'\n<a href="https://t.me/lutisfgag/{databaseGeom.get_id(file)}">{file}</a>'
+            await bot.edit_message_text(text, channel_id,
+                                        databaseGeom.get_folder_id(x),
+                                        parse_mode=types.ParseMode.HTML,
+                                        disable_web_page_preview=True)
         else:
             text = f'<b>{x}</b>'
             for file in fldrs[x]:
@@ -87,7 +94,6 @@ async def makeGeom():
                                     geom_msg_id, parse_mode=types.ParseMode.HTML, disable_web_page_preview=True)
     except aiogram.utils.exceptions.MessageNotModified:
         print('vsem pohui na geomu')
-
 
 async def makeMatan():
     namesMatan = parsing.parseMatan()
@@ -114,7 +120,13 @@ async def makeMatan():
     for x in fldrs:
         # print(fldrs)
         if databaseMatan.is_exists(x):
-            pass
+            text = f'<b>{x}</b>'
+            for file in fldrs[x]:
+                text += f'\n<a href="https://t.me/lutisfgag/{databaseMatan.get_id(file)}">{file}</a>'
+
+            await bot.edit_message_text(text, channel_id, databaseMatan.get_folder_id(x),
+                                         parse_mode=types.ParseMode.HTML,
+                                         disable_web_page_preview=True)
         else:
             text = f'<b>{x}</b>'
             for file in fldrs[x]:
@@ -149,6 +161,8 @@ async def update(message: types.Message):
 @dp.message_handler(commands=['lastupd'])
 async def update(message: types.Message):
     await bot.send_message(message.from_user.id, lastupd.strftime("%d.%m.%Y %H:%M:%S"))
+
+
 
 async def upd():
     global lastupd
