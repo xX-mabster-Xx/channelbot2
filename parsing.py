@@ -14,7 +14,6 @@ def find_length(lecture):
 
 
 def update_file(fname, f2): #возвращает 1 когда был такой же файл, 2 когда файлы были разные, 0 когда файла не было
-    return_value = 1
     flag = 0
     if not os.path.exists(fname):
         with open(fname, 'wb') as f:
@@ -54,6 +53,13 @@ def parseGeom():
 
     return names
 
+def parseDiskra():
+    url = 'https://auth.hse.ru/adfs/oauth2/authorize?client_id=4403a646-2af8-42ba-a2b1-4f5a50a5b376&redirect_uri=htt' \
+          'ps://smartedu.hse.ru/auth&response_type=token&response_mode=fragment&client-request-id=d42ca53d-ff66-4b19-c270-00800a00002a'
+    data = {
+        'value': 'avusoltsev@edu.hse.ru'
+        
+    }
 
 if __name__ == '__main__':
     parseGeom()
