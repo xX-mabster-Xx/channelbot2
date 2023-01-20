@@ -14,7 +14,7 @@ import databaseGeom
 lastupd = datetime.datetime(2000, 7, 10, 3, 3, 3)
 
 
-TOKEN = '5699670562:AAEycECb_3mpO39QiC_QJ06EqvBKf6bDtM8'
+
 channel_id = -1001655261828
 matan_msg_id = 298
 geom_msg_id = 527
